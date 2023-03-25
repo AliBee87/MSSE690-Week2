@@ -1,28 +1,38 @@
 package triangleCalculator;
-import java.util.Objects;
+
+import java.util.Objects; //IntelliJ is telling me this is necessary for hash
+
 public class TriangleCalculator {
 
+
+    private double base;
+    private double height;
     private double sideA;
     private double sideB;
     private double sideC;
 
-    //constructor for calculateArea
+
+    //no arg constructor
+    public TriangleCalculator() {
+    }
+    public TriangleCalculator(double base, double height){
+        this.base = base;
+        this.height = height;
+
+    }
+    //constructor for determineTriangleType
     public TriangleCalculator(double sideA, double sideB, double sideC) {
         this.sideA = sideA;
         this.sideB = sideB;
         this.sideC = sideC;
     }
 
-    //no arg constructor
-    public TriangleCalculator() {
+    //calculate area of triangle
+    public double calculateArea(double base, double height){
+        return base*height/2;
     }
-
-    //calculate the area of the triangle
-    //method determineTriangleType got moved into calculateArea method
-    public double calculateArea(double sideA, double sideB, double sideC) {
-        System.out.println("The area of the triangle is: ");
-        double perimeter = (sideA + sideB + sideC) / 2;
-        System.out.println(Math.sqrt(perimeter *(perimeter - sideA) * (perimeter - sideB) * (perimeter - sideC)));
+    //determine if isosceles, scalene, or equilateral
+    public void determineTriangleType(double sideA, double sideB, double sideC){
         if (sideA == sideB && sideB == sideC) {
             System.out.println("This is an equilateral triangle.");
         } else if (sideA == sideB || sideB == sideC || sideC == sideA) {
@@ -30,10 +40,7 @@ public class TriangleCalculator {
         } else {
             System.out.println("This is a scalene triangle.");
         }
-        return perimeter;
     }
-
-
 
     //getters an setters
     public double getSideA() {
@@ -55,25 +62,25 @@ public class TriangleCalculator {
         this.sideC = sideC;
     }
 
-    //equals
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TriangleCalculator that = (TriangleCalculator) o;
-        return Double.compare(that.sideA, sideA) == 0 && Double.compare(that.sideB, sideB) == 0 && Double.compare(that.sideC, sideC) == 0;
-    }
-    //hash
-    @Override
-    public int hashCode() {
-        return Objects.hash(sideA, sideB, sideC);
+        return Double.compare(that.base, base) == 0 && Double.compare(that.height, height) == 0 && Double.compare(that.sideA, sideA) == 0 && Double.compare(that.sideB, sideB) == 0 && Double.compare(that.sideC, sideC) == 0;
     }
 
-    //toString
+    @Override
+    public int hashCode() {
+        return Objects.hash(base, height, sideA, sideB, sideC);
+    }
+
     @Override
     public String toString() {
         return "TriangleCalculator{" +
-                "sideA=" + sideA +
+                "base=" + base +
+                ", height=" + height +
+                ", sideA=" + sideA +
                 ", sideB=" + sideB +
                 ", sideC=" + sideC +
                 '}';
