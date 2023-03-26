@@ -3,23 +3,25 @@ package triangleCalculator;
 import java.util.Objects; //IntelliJ is telling me this is necessary for hash
 
 public class TriangleCalculator {
-
-
     private double base;
     private double height;
     private double sideA;
     private double sideB;
     private double sideC;
 
+    enum Type {EQUILATERAL, ISOSCELES, SCALENE, NOTTRIANGLE}
 
     //no arg constructor
     public TriangleCalculator() {
     }
-    public TriangleCalculator(double base, double height){
+
+    //constructor for calculateArea
+    public TriangleCalculator(double base, double height) {
         this.base = base;
         this.height = height;
 
     }
+
     //constructor for determineTriangleType
     public TriangleCalculator(double sideA, double sideB, double sideC) {
         this.sideA = sideA;
@@ -28,25 +30,48 @@ public class TriangleCalculator {
     }
 
     //calculate area of triangle
-    public void calculateArea(double base, double height){
+    public void calculateArea(double base, double height) {
         double answer;
         if (base > 0 && height > 0) {
-            answer = base*height/2;
+            answer = base * height / 2;
             System.out.println("The area of the triangle is: " + answer);
         } else
             System.out.println("Invalid entry. Please enter an integer greater than 0.");
     }
-    //determine if isosceles, scalene, or equilateral
-    public void determineTriangleType(double sideA, double sideB, double sideC){
-        if (sideA == sideB && sideB == sideC) {
-            System.out.println("This is an equilateral triangle.");
-        } else if (sideA == sideB || sideB == sideC || sideC == sideA) {
-            System.out.println("This is an isosceles triangle.");
-        } else {
-            System.out.println("This is a scalene triangle.");
-        }
-    }
 
+    //determine if isosceles, scalene, or equilateral
+    public void determineTriangleType(double sideA, double sideB, double sideC) {
+        Type currentType = Type.EQUILATERAL;
+        if ((sideA + sideB <= sideC) || (sideA + sideC <= sideB) || (sideB + sideC <= sideA)) {
+            currentType = Type.NOTTRIANGLE;
+        } else if ((sideA == sideB) || (sideB == sideC) || (sideC == sideA)) {
+            currentType = Type.ISOSCELES;
+        } else if ((sideA == sideB) && (sideB == sideC) && (sideC == sideA)) {
+            currentType = Type.EQUILATERAL;
+        } else {
+            currentType = Type.SCALENE;
+        }
+        switch (currentType) {
+            case NOTTRIANGLE -> {
+                System.out.println("This is not a triangle.");
+                break;
+            }
+            case ISOSCELES -> {
+                System.out.println("This is an isosceles triangle.");
+                break;
+            }
+            case EQUILATERAL -> {
+                System.out.println("This is an equilateral triangle");
+                break;
+            }
+            case SCALENE -> {
+                System.out.println("This is a scalene triangle");
+                break;
+            }
+
+        }
+
+    }
     //getters an setters
     public double getSideA() {
         return sideA;
@@ -66,7 +91,6 @@ public class TriangleCalculator {
     public void setSideC(double sideC) {
         this.sideC = sideC;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,12 +98,10 @@ public class TriangleCalculator {
         TriangleCalculator that = (TriangleCalculator) o;
         return Double.compare(that.base, base) == 0 && Double.compare(that.height, height) == 0 && Double.compare(that.sideA, sideA) == 0 && Double.compare(that.sideB, sideB) == 0 && Double.compare(that.sideC, sideC) == 0;
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(base, height, sideA, sideB, sideC);
     }
-
     @Override
     public String toString() {
         return "TriangleCalculator{" +
