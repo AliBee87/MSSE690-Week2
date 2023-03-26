@@ -28,8 +28,14 @@ public class TriangleCalculator {
     }
 
     //calculate area of triangle
-    public double calculateArea(double base, double height){
-        return base*height/2;
+    public String calculateArea(double base, double height){
+        double answer;
+        if (base > 0 && height > 0) {
+            answer = base*height/2;
+            System.out.println("The area of the triangle is: " + answer);
+        } else
+            System.out.println("Invalid entry. Please enter an integer greater than 0.");
+        return "";
     }
     //determine if isosceles, scalene, or equilateral
     public void determineTriangleType(double sideA, double sideB, double sideC){
